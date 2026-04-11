@@ -8,7 +8,6 @@ st.set_page_config(page_title="AegisSync", layout="centered")
 authenticator = Authenticate(
     client_id=st.secrets["client_id"],
     client_secret=st.secrets["client_secret"],
-    redirect_uri="https://aegissync.streamlit.app/",
     cookie_name="google_auth_cookie",
     cookie_key="uma_chave_bem_dificil_e_segura_123"
 )
@@ -75,6 +74,7 @@ elif pagina == "Login":
 
     # --- TELA DE LOGIN ---
     else:
+        authenticator.login(redirect_uri="https://aegissync.streamlit.app/")
         st.title("AegisSync")
         st.subheader("Entrar ou criar conta")
         # Seus campos de texto de cadastro...
