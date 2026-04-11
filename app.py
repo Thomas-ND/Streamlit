@@ -61,7 +61,7 @@ elif pagina == "Login":
         client_secret=st.secrets["client_secret"],
         cookie_name="aegissync",
         cookie_key="chave_super_secreta",
-        redirect_uri="https://SEU-APP.streamlit.app"
+        redirect_uri="https://aegissync.streamlit.app"
     )
 
     authenticator.check_authentification()
