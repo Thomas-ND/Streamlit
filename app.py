@@ -5,7 +5,6 @@ from streamlit_google_auth import Authenticate
 st.set_page_config(page_title="AegisSync", layout="centered")
 
 authenticator = Authenticate(
-    secret_credentials_path=None,
     client_id=st.secrets["client_id"],
     client_secret=st.secrets["client_secret"],
     cookie_name="google_auth_cookie", 
