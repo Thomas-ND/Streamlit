@@ -12,7 +12,7 @@ authenticator = Authenticate(
     cookie_key="uma_chave_bem_dificil_e_segura_123"
 )
 # Verifica se o usuário já está logado logo no início
-authenticator.check_authentification()
+authenticator.check_authentication()
 
 
 pagina = st.sidebar.radio(
