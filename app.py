@@ -4,6 +4,7 @@ from streamlit_google_auth import Authenticate
 
 st.set_page_config(page_title="AegisSync", layout="centered")
 
+# No topo do app.py
 authenticator = Authenticate(
     client_id=st.secrets["client_id"],
     client_secret=st.secrets["client_secret"],
@@ -11,7 +12,8 @@ authenticator = Authenticate(
     cookie_name="google_auth_cookie",
     cookie_key="uma_chave_bem_dificil_e_segura_123"
 )
-# Verifica se o usuário já está logado logo no início
+
+# A linha corrigida:
 authenticator.check_authentication()
 
 
