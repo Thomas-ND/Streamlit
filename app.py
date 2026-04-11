@@ -13,7 +13,7 @@ if "conectado" not in st.session_state:
 
 pagina = st.sidebar.radio(
     "Menu",
-    ['Inicio', 'Login', 'Localização']
+    ['Inicio', 'Login/Cadastro', 'Localização']
 )
 
 st.markdown("""
