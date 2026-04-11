@@ -46,7 +46,7 @@ if pagina =="Inicio":
         col1, col2 = st.columns(2)
 
         with col1: 
-            st.image("imagem.jpeg")
+            st.image("Imagem.jpeg")
         with col2:
             animar_texto("Pulseira estilo smartwatch discreta com botão ao lado, carregamento via USB-C, sensor de batimentos cardiacos para cancelar o gps após sinal enviado caso os batimentos desapareçam.")
 
