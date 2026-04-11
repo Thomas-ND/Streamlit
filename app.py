@@ -2,6 +2,20 @@ import streamlit as st
 import pandas as pd
 from streamlit_google_auth import Authenticate
 
+st.set_page_config(page_title="AegisSync", layout="centered")
+
+authenticator = Authenticate(
+    secret_credentials_path=None,
+    client_id=st.secrets["client_id"],
+    client_secret=st.secrets["client_secret"],
+    cookie_name="aegissync", 
+    cookie_key="chave_super_secreta_123",
+    redirect_uri="https://aegissync.streamlit.app/"
+)
+
+# Verifica se o usuário já está logado logo no início
+authenticator.check_authentification()
+
 
 pagina = st.sidebar.radio(
     "Menu",
@@ -52,47 +66,21 @@ if pagina =="Inicio":
             animar_texto("Pulseira estilo smartwatch discreta com botão ao lado, carregamento via USB-C, sensor de batimentos cardiacos para cancelar o gps após sinal enviado caso os batimentos desapareçam.")
 
 elif pagina == "Login":
-    st.set_page_config(page_title="AegisSync", layout="centered")
-
-    # --- CONFIG GOOGLE ---
-    authenticator = Authenticate(
-        secret_credentials_path=None,
-        client_id=st.secrets["client_id"],
-        client_secret=st.secrets["client_secret"],
-        cookie_name=st.secrets["cookie_name"],
-        cookie_key=st.secrets["cookie_key"],
-        redirect_uri="https://aegissync.streamlit.app/"
-    )
-
-    authenticator.check_authentification()
-
     # --- SE LOGADO ---
     if st.session_state.get("connected"):
         user = st.session_state["user_info"]
-
         st.success(f"Bem-vindo, {user.get('name')}")
-        st.write("Email:", user.get("email"))
-
         if st.button("Logout"):
             authenticator.logout()
 
-    # --- TELA DE LOGIN/CADASTRO ---
+    # --- TELA DE LOGIN ---
     else:
         st.title("AegisSync")
         st.subheader("Entrar ou criar conta")
-
-        # Cadastro normal (simples)
-        nome = st.text_input("Nome")
-        email = st.text_input("Email")
-        senha = st.text_input("Senha", type="password")
-
-        if st.button("Cadastrar"):
-            st.success("Conta criada (simulação)")
-
+        # Seus campos de texto de cadastro...
+        
         st.markdown("### ou")
-
-        # Login com Google REAL
-        authenticator.login()
+        authenticator.login() # Botão do Google
 
 elif pagina == "Localização":
     st.title("Localização via StreetOpenMap")
