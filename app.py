@@ -10,7 +10,7 @@ authenticator = Authenticate(
     client_secret=st.secrets["client_secret"],
     cookie_name="google_auth_cookie", 
     cookie_key="uma_frase_bem_dificil_e_segura_123",
-    redirect_uri="https://aegissync.streamlit.app/"
+    redirect_uri="https://aegissync.streamlit.app"
 )
 
 # Verifica se o usuário já está logado logo no início
