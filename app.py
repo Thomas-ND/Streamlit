@@ -60,7 +60,7 @@ elif pagina == "Login":
         client_id=st.secrets["client_id"],
         client_secret=st.secrets["client_secret"],
         cookie_name="aegissync",
-        cookie_key="chave_super_secreta",
+        cookie_key=st.secrets["cookie_key"],
         redirect_uri="https://aegissync.streamlit.app"
     )
 
