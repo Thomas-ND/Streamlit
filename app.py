@@ -7,11 +7,10 @@ st.set_page_config(page_title="AegisSync", layout="centered")
 authenticator = Authenticate(
     client_id=st.secrets["client_id"],
     client_secret=st.secrets["client_secret"],
-    cookie_name="google_auth_cookie", 
-    cookie_key="uma_frase_bem_dificil_e_segura_123",
-    redirect_uri="https://aegissync.streamlit.app"
+    redirect_uri="https://aegissync.streamlit.app/",
+    cookie_name="google_auth_cookie",
+    cookie_key="uma_chave_bem_dificil_e_segura_123"
 )
-
 # Verifica se o usuário já está logado logo no início
 authenticator.check_authentification()
 
