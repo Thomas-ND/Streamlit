@@ -88,7 +88,7 @@ elif pagina == "Login/Cadastro":
         # --- FORMULÁRIO DE CADASTRO ---
         with aba_cadastro:
             novo_nome = st.text_input("Nome Completo")
-            novo_email = st.text_input("Seu melhor Email")
+            novo_email = st.text_input("Email")
             nova_senha = st.text_input("Crie uma Senha", type="password")
             confirmar_senha = st.text_input("Confirme a Senha", type="password")
 
