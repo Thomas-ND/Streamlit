@@ -4,16 +4,11 @@ from streamlit_google_auth import Authenticate
 
 st.set_page_config(page_title="AegisSync", layout="centered")
 
-# No topo do app.py
-authenticator = Authenticate(
-    client_id=st.secrets["client_id"],
-    client_secret=st.secrets["client_secret"],
-    cookie_name="google_auth_cookie",
-    cookie_key="uma_chave_bem_dificil_e_segura_123"
-)
+if "usuarios" not in st.session_state:
+    st.session_state["usuarios"] = {"admin@teste.com": {"nome": "Admin", "senha": "123"}}
 
-# A linha corrigida:
-authenticator.check_authentication()
+if "conectado" not in st.session_state:
+    st.session_state["conectado"] = False
 
 
 pagina = st.sidebar.radio(
@@ -64,23 +59,50 @@ if pagina =="Inicio":
         with col2:
             animar_texto("Pulseira estilo smartwatch discreta com botão ao lado, carregamento via USB-C, sensor de batimentos cardiacos para cancelar o gps após sinal enviado caso os batimentos desapareçam.")
 
-elif pagina == "Login":
-    # --- SE LOGADO ---
-    if st.session_state.get("connected"):
-        user = st.session_state["user_info"]
-        st.success(f"Bem-vindo, {user.get('name')}")
-        if st.button("Logout"):
-            authenticator.logout()
+elif pagina == "Login/Cadastro":
+    st.title("Portal do Usuário")
 
-    # --- TELA DE LOGIN ---
+    if st.session_state["conectado"]:
+        st.success(f"Olá, {st.session_state['usuario_nome']}! Você está logado.")
+        if st.button("Sair da Conta"):
+            st.session_state["conectado"] = False
+            st.rerun()
     else:
-        authenticator.login(redirect_uri="https://aegissync.streamlit.app/")
-        st.title("AegisSync")
-        st.subheader("Entrar ou criar conta")
-        # Seus campos de texto de cadastro...
-        
-        st.markdown("### ou")
-        authenticator.login() # Botão do Google
+        aba_login, aba_cadastro = st.tabs(["Entrar", "Criar Conta"])
+
+        # --- FORMULÁRIO DE LOGIN ---
+        with aba_login:
+            login_email = st.text_input("Email", key="login_email")
+            login_senha = st.text_input("Senha", type="password", key="login_senha")
+            
+            if st.button("Acessar"):
+                user = st.session_state["usuarios"].get(login_email)
+                if user and user["senha"] == login_senha:
+                    st.session_state["conectado"] = True
+                    st.session_state["usuario_nome"] = user["nome"]
+                    st.success("Login realizado com sucesso!")
+                    st.rerun()
+                else:
+                    st.error("Email ou senha incorretos.")
+
+        # --- FORMULÁRIO DE CADASTRO ---
+        with aba_cadastro:
+            novo_nome = st.text_input("Nome Completo")
+            novo_email = st.text_input("Seu melhor Email")
+            nova_senha = st.text_input("Crie uma Senha", type="password")
+            confirmar_senha = st.text_input("Confirme a Senha", type="password")
+
+            if st.button("Finalizar Cadastro"):
+                if not novo_nome or not novo_email or not nova_senha:
+                    st.warning("Preencha todos os campos.")
+                elif nova_senha != confirmar_senha:
+                    st.error("As senhas não coincidem.")
+                elif novo_email in st.session_state["usuarios"]:
+                    st.error("Este email já está cadastrado.")
+                else:
+                    # Salva o novo usuário no "banco" temporário
+                    st.session_state["usuarios"][novo_email] = {"nome": novo_nome, "senha": nova_senha}
+                    st.success("Conta criada! Agora você pode fazer login.")
 
 elif pagina == "Localização":
     st.title("Localização via StreetOpenMap")
