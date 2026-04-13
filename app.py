@@ -1,19 +1,9 @@
 import streamlit as st
 import pandas as pd
-from streamlit_google_auth import Authenticate
-
-st.set_page_config(page_title="AegisSync", layout="centered")
-
-if "usuarios" not in st.session_state:
-    st.session_state["usuarios"] = {"admin@teste.com": {"nome": "Admin", "senha": "123"}}
-
-if "conectado" not in st.session_state:
-    st.session_state["conectado"] = False
-
 
 pagina = st.sidebar.radio(
     "Menu",
-    ['Inicio', 'Login/Cadastro', 'Localização']
+    ['Inicio', 'Login/Cadastro', 'Dispositivos/Contatos', 'Localização']
 )
 
 st.markdown("""
@@ -104,11 +94,34 @@ elif pagina == "Login/Cadastro":
                     st.session_state["usuarios"][novo_email] = {"nome": novo_nome, "senha": nova_senha}
                     st.success("Conta criada! Agora você pode fazer login.")
 
+elif pagina == "Dispositivos/Contatos":
+    st.title("Dispositivos e contatos conectados")
+    st.write("Conecte seu dispositivo e contatos confiáveis.")
+    tab3, tab4 = st.tabs(["Dispositivos", "Contatos"])
+    with tab3:
+        if st.button("Adicionar dispositivo", use_container_width=True):
+            st.write("Dispositivo não encontrado.")
+    with tab4:
+        col3, col4 = st.columns(2)
+        with col3:
+            if st.button("Adicionar contatos", use_container_width=True):
+                st.write("Selecione os contatos")
+        
+        with col4:
+            st.markdown("<h3 style='text-align: center;'>Atenção</h3>", unsafe_allow_html=True)
+            st.write("Selecione apenas os contatos mais confiaveis e dispostos para agir em casos de emergência.")
+
+       
+
+
 elif pagina == "Localização":
-    st.title("Localização via StreetOpenMap")
+    st.title("Localização via OpenStreetMap")
     df = pd.DataFrame({
     "lat": [-7.845],   # Carpina aprox
     "lon": [-35.254]
+    })
+
+    st.map(df)
     })
 
     st.map(df)
