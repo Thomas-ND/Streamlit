@@ -122,6 +122,3 @@ elif pagina == "Localização":
     })
 
     st.map(df)
-    })
-
-    st.map(df)
