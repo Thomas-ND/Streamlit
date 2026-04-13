@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 
+if "usuarios" not in st.session_state:
+    st.session_state["usuarios"] = {"admin@teste.com": {"nome": "Admin", "senha": "123"}}
+
+if "conectado" not in st.session_state:
+    st.session_state["conectado"] = False
+
 pagina = st.sidebar.radio(
     "Menu",
     ['Inicio', 'Login/Cadastro', 'Dispositivos/Contatos', 'Localização']
